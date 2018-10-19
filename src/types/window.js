@@ -134,6 +134,7 @@ export interface Window extends EventTarget, IDBEnvironment {
     XMLHttpRequest: typeof XMLHttpRequest;
     Request: typeof Request;
     AbortController: any;
+    DOMException: any;
 
     alert(message?: any): void;
     blur(): void;

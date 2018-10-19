@@ -8,7 +8,7 @@ import { StylePropertyFunction, StyleExpression, ZoomDependentExpression, ZoomCo
 import CompoundExpression from '../style-spec/expression/compound_expression';
 import expressions from '../style-spec/expression/definitions';
 import window from './window';
-const { ImageData } = window;
+const { ImageData, DOMException } = window;
 
 import type {Transferable} from '../types/transferable';
 
@@ -86,6 +86,7 @@ register('Grid', Grid);
 
 register('Color', Color);
 register('Error', Error);
+register('DOMException', DOMException);
 
 register('StylePropertyFunction', StylePropertyFunction);
 register('StyleExpression', StyleExpression, {omit: ['_evaluator']});
