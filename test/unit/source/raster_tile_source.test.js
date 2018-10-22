@@ -48,7 +48,7 @@ test('RasterTileSource', (t) => {
         t.end();
     });
 
-    t.test('respects TileJSON.bounds', (t)=>{
+    t.test('respects TileJSON.bounds', (t) => {
         const source = createSource({
             minzoom: 0,
             maxzoom: 22,
@@ -56,7 +56,7 @@ test('RasterTileSource', (t) => {
             tiles: ["http://example.com/{z}/{x}/{y}.png"],
             bounds: [-47, -7, -45, -5]
         });
-        source.on('data', (e)=>{
+        source.on('data', (e) => {
             if (e.sourceDataType === 'metadata') {
                 t.false(source.hasTile(new OverscaledTileID(8, 0, 8, 96, 132)), 'returns false for tiles outside bounds');
                 t.true(source.hasTile(new OverscaledTileID(8, 0, 8, 95, 132)), 'returns true for tiles inside bounds');
@@ -65,7 +65,7 @@ test('RasterTileSource', (t) => {
         });
     });
 
-    t.test('does not error on invalid bounds', (t)=>{
+    t.test('does not error on invalid bounds', (t) => {
         const source = createSource({
             minzoom: 0,
             maxzoom: 22,
@@ -74,7 +74,7 @@ test('RasterTileSource', (t) => {
             bounds: [-47, -7, -45, 91]
         });
 
-        source.on('data', (e)=>{
+        source.on('data', (e) => {
             if (e.sourceDataType === 'metadata') {
                 t.deepEqual(source.tileBounds.bounds, {_sw:{lng: -47, lat: -7}, _ne:{lng: -45, lat: 90}}, 'converts invalid bounds to closest valid bounds');
                 t.end();
@@ -82,7 +82,7 @@ test('RasterTileSource', (t) => {
         });
     });
 
-    t.test('respects TileJSON.bounds when loaded from TileJSON', (t)=>{
+    t.test('respects TileJSON.bounds when loaded from TileJSON', (t) => {
         window.server.respondWith('/source.json', JSON.stringify({
             minzoom: 0,
             maxzoom: 22,
