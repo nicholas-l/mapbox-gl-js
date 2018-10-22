@@ -361,13 +361,13 @@ test("mapbox", (t) => {
                 prevLocalStorage = window.localStorage;
                 window.localStorage = {
                     data: {},
-                    setItem: function (id, val) {
+                    setItem (id, val) {
                         this.data[id] = String(val);
                     },
-                    getItem: function (id) {
+                    getItem (id) {
                         return this.data.hasOwnProperty(id) ? this.data[id] : undefined;
                     },
-                    removeItem: function (id) {
+                    removeItem (id) {
                         if (this.hasOwnProperty(id)) delete this[id];
                     }
                 };

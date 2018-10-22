@@ -29,21 +29,21 @@
             e.preventDefault();
             if (e.which === 38) { // up
                 map.panBy([0, -deltaDistance], {
-                    easing: easing
+                    easing
                 });
             } else if (e.which === 40) { // down
                 map.panBy([0, deltaDistance], {
-                    easing: easing
+                    easing
                 });
             } else if (e.which === 37) { // left
                 map.easeTo({
                     bearing: map.getBearing() - deltaDegrees,
-                    easing: easing
+                    easing
                 });
             } else if (e.which === 39) { // right
                 map.easeTo({
                     bearing: map.getBearing() + deltaDegrees,
-                    easing: easing
+                    easing
                 });
             }
         }, true);

@@ -22,7 +22,7 @@ map.on('load', function () {
         data.features[0].geometry.coordinates = [coordinates[0]];
 
         // add it to the map
-        map.addSource('trace', { type: 'geojson', data: data });
+        map.addSource('trace', { type: 'geojson', data });
         map.addLayer({
             "id": "trace",
             "type": "line",
