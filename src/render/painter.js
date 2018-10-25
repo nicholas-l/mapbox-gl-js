@@ -452,6 +452,36 @@ class Painter {
         return translatedMatrix;
     }
 
+    relativeToEyeMatrix(translate: [number, number], translateAnchor: 'map' | 'viewport') {
+        const angle = translateAnchor === 'viewport' ? -this.transform.angle : 0;
+
+        if (angle) {
+            const sinA = Math.sin(angle);
+            const cosA = Math.cos(angle);
+            translate = [
+                translate[0] * cosA - translate[1] * sinA,
+                translate[0] * sinA + translate[1] * cosA
+            ];
+        }
+
+        const translation = [
+            translate[0],
+            translate[1],
+            0
+        ];
+
+        const translatedMatrix = new Float32Array(16);
+        const matrix = this.transform.globalMatrix;
+        const relativeToEyeMatrix = [
+            matrix[0], matrix[1], matrix[2], matrix[3],
+            matrix[4], matrix[5], matrix[6], matrix[7],
+            matrix[8], matrix[9], matrix[10], matrix[11],
+            0, 0, 0, matrix[15]
+        ];
+        mat4.translate(translatedMatrix, relativeToEyeMatrix, translation);
+        return translatedMatrix;
+    }
+
     saveTileTexture(texture: Texture) {
         const textures = this._tileTextures[texture.size[0]];
         if (!textures) {

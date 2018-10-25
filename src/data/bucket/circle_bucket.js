@@ -31,26 +31,31 @@ function addCircleVertex(layoutVertexArray, globalPosition, extrudeX, extrudeY) 
     layoutVertexArray.emplaceBack(
         globalPosition[0], // x high bits
         globalPosition[1], // y high bits
-        (globalPosition[2] + 1) * extrudeX, // x low bits + x extrude as sign
-        (globalPosition[3] + 1) * extrudeY); // y low bits + y extrude as sign
+        (globalPosition[2] * 2) + ((extrudeX + 1) / 2),  // x low bits + x extrude
+        (globalPosition[3] * 2) + ((extrudeY + 1) / 2)); // y low bits + y extrude
 }
 
 const maxUint15 = Math.pow(2, 15);
 
 function globalPosition(tileX: number, tileY: number, canonical: CanonicalTileID): Array<number> {
     // Convert to a global representation:
-    // xHigh (INT16): coordinate of z16 tile containing this point
-    // yHigh (INT16): coordinate of z16 tile containing this point
+    // xHigh (UINT16): coordinate of z16 tile containing this point
+    // yHigh (UINT16): coordinate of z16 tile containing this point
     // xLow (UINT15): 15 bits of x precision within the z16 tile
     // yLow (UINT15): 15 bits of y precision within the z16 tile
+    console.log(canonical);
+    console.log(tileX);
+    console.log(tileY);
     const scaleDiff = Math.pow(2, 16 - canonical.z);
     const tileXFractional = tileX / EXTENT;
     const tileYFractional = tileY / EXTENT;
+    const fullPrecisionX = scaleDiff * canonical.x + tileXFractional * scaleDiff;
+    const fullPrecisionY = scaleDiff * canonical.y + tileYFractional * scaleDiff;
     return [
-        scaleDiff * canonical.x + Math.floor(tileXFractional * scaleDiff),
-        scaleDiff * canonical.y + Math.floor(tileYFractional * scaleDiff),
-        (tileXFractional * scaleDiff % 1) * maxUint15,
-        (tileYFractional * scaleDiff % 1) * maxUint15
+        Math.floor(fullPrecisionX),
+        Math.floor(fullPrecisionY),
+        Math.floor((fullPrecisionX % 1) * maxUint15),
+        Math.floor((fullPrecisionY % 1) * maxUint15)
     ];
 }
 
